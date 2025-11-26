@@ -1,39 +1,60 @@
-/* fetch product data from open food facts */
+/* list of dessert or sweet product barcodes */
+const dessertBarcodes = [
+  "3017624010701",  // Nutella
+  "737628064502",  // Hershey’s
+  "8000500310427", // Kinder Bueno
+  "7622210449283", // Oreo Cookies
+  "5000159450122"  // Cadbury Chocolate
+];
 
-fetch("https://world.openfoodfacts.net/api/v2/product/3017624010701")
-  .then(res => res.json())
-  .then(data => {
+/* get a random barcode */
+function getRandomBarcode() {
+  return dessertBarcodes[Math.floor(Math.random() * dessertBarcodes.length)];
+}
 
-    /* check if product exists */
-    if (data.status === 1) {
+/* load product from API */
+function loadProduct() {
+  const barcode = getRandomBarcode();
+  const box = document.getElementById("api-dessert");
 
-      const product = data.product;
+  box.innerHTML = `<p>loading...</p>`;
+  box.style.opacity = 0;
+  box.style.transform = "translateY(40px)";
 
-      /* select api box */
-      const box = document.getElementById("api-dessert");
+  fetch(`https://world.openfoodfacts.net/api/v2/product/${barcode}`)
+    .then(res => res.json())
+    .then(data => {
 
-      /* insert product info into page */
-      box.innerHTML = `
-        <h2>featured product</h2>
-        <img src="${product.image_url}" class="api-img">
-        <p><strong>${product.product_name}</strong></p>
-        <p>brand: ${product.brands || "n/a"}</p>
-        <p>nutri-score: ${product.nutrition_grades || "n/a"}</p>
-      `;
+      if (data.status === 1) {
+        const p = data.product;
 
-      /* animate with popmotion tween */
-      popmotion.tween({
-        from: { opacity: 0, y: 40 },
-        to: { opacity: 1, y: 0 },
-        duration: 1200,
-        ease: popmotion.easing.easeOut
-      }).start(v => {
-        box.style.opacity = v.opacity;
-        box.style.transform = `translateY(${v.y}px)`;
-      });
+        box.innerHTML = `
+          <h2>featured product</h2>
+          <img src="${p.image_url}" class="api-img">
+          <p><strong>${p.product_name || "No name"}</strong></p>
+          <p>brand: ${p.brands || "N/A"}</p>
+          <p>nutri-score: ${p.nutrition_grades || "N/A"}</p>
+        `;
 
-    } else {
-      console.error("product not found");
-    }
-  })
-  .catch(err => console.error(err));
+        /* fancy spring animation */
+        popmotion.spring({
+          from: { opacity: 0, y: 40 },
+          to: { opacity: 1, y: 0 },
+          stiffness: 120,
+          damping: 12
+        }).start(v => {
+          box.style.opacity = v.opacity;
+          box.style.transform = `translateY(${v.y}px)`;
+        });
+
+      } else {
+        box.innerHTML = "<p>Product not found.</p>";
+      }
+    });
+}
+
+/* button: load random dessert */
+document.getElementById("random-btn").addEventListener("click", loadProduct);
+
+/* load first product on page load */
+loadProduct();
