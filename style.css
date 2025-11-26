@@ -87,7 +87,6 @@ div img {
 
 /* row 5: custom layout 1 > 2 > 1 */
 /* new: using minmax() to control minimum + maximum responsive sizes */
-
 .row-5 {
   grid-template-columns: 
     minmax(150px, 20%) 
@@ -101,12 +100,48 @@ div img {
 
 /* row 6 – 5 equal grid columns */
 /* new: using repeat(5, 1fr) to auto-create equal tracks */
-/* note: flex reverse behavior removed because grid does not need it */
 .row-6 {
   grid-template-columns: repeat(5, 1fr);
 }
 .row-6 .col-unique {
   background-color: #ffc0cb;
+}
+
+
+
+/* row 7: api product section*/
+
+
+/* row 7 uses 1 column full width */
+.row-7 {
+  grid-template-columns: 1fr;
+}
+
+/* api box background + formatting */
+/* new: pastel background for api card */
+.api-box {
+  background-color: #ffe4ec;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  opacity: 0; /* start hidden for animation */
+  transform: translateY(40px); /* starting position for popmotion */
+}
+
+/* product image from open food facts */
+/* slightly larger image compared to dessert grid items */
+.api-img {
+  width: 230px;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* headline style inside api box */
+.api-box h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #333;
 }
 
 
@@ -137,6 +172,11 @@ div img {
   .row-6 {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* row 7 stays 1 column */
+  .row-7 {
+    grid-template-columns: 1fr;
+  }
 }
 
 
@@ -150,5 +190,10 @@ div img {
 
   .row-6 {
     grid-template-columns: 1fr;
+  }
+
+  /* make api image smaller for mobile */
+  .api-img {
+    width: 180px;
   }
 }
