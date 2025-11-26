@@ -23,7 +23,7 @@ a {
   background-color: #fff;
 }
 
-/* image formatting */
+/* image formatting for dessert items */
 div img {
   width: 100%;
   max-width: 225px;
@@ -33,13 +33,12 @@ div img {
 }
 
 /* grid container applied to all rows */
-/* new: using css grid instead of flexbox */
 .row {
   display: grid;
-  gap: 20px; /* new: gap replaces margin spacing and controls row and column space */
+  gap: 20px; /* spacing between grid items */
 }
 
-/* common column styles */
+/* common column box styles */
 [class*="col-"] {
   padding: 15px;
   border-radius: 8px;
@@ -48,27 +47,26 @@ div img {
 }
 
 
-/* row 1 – 4 equal columns */
-/* new: using repeat() to generate equal tracks automatically */
+/* row 1: 4 equal columns */
+
 .row-1 {
-  grid-template-columns: repeat(4, 1fr); 
+  grid-template-columns: repeat(4, 1fr);
 }
 .row-1 .col-1 {
   background-color: #ffc0cb;
 }
 
-
 /* row 2: 2 equal columns */
+
 .row-2 {
-  grid-template-columns: repeat(2, 1fr); /* new: repeat() for cleaner syntax */
+  grid-template-columns: repeat(2, 1fr);
 }
 .row-2 .col-2 {
   background-color: #add8e6;
 }
 
+/* row 3: 20% left column + wide right */
 
-/* row 3: 20% column + flexible column */
-/* new: grid template with percentage and 1fr for responsive width */
 .row-3 {
   grid-template-columns: 20% 1fr;
 }
@@ -76,7 +74,8 @@ div img {
 .col-3-3 { background-color: #add8e6; }
 
 
-/* row 4: single full-width column */
+/* row 4: single full width column */
+
 .row-4 {
   grid-template-columns: 1fr;
 }
@@ -84,22 +83,20 @@ div img {
   background-color: #ffc0cb;
 }
 
+/* row 5: 3 column custom layout */
 
-/* row 5: custom layout 1 > 2 > 1 */
-/* new: using minmax() to control minimum + maximum responsive sizes */
 .row-5 {
-  grid-template-columns: 
-    minmax(150px, 20%) 
-    minmax(200px, 1fr) 
+  grid-template-columns:
+    minmax(150px, 20%)
+    minmax(200px, 1fr)
     minmax(150px, 20%);
   gap: 20px;
 }
 .row-5 .col-1 { background-color: #ffc0cb; }
 .row-5 .col-2 { background-color: #add8e6; }
 
+/* row 6: 5 equal columns */
 
-/* row 6 – 5 equal grid columns */
-/* new: using repeat(5, 1fr) to auto-create equal tracks */
 .row-6 {
   grid-template-columns: repeat(5, 1fr);
 }
@@ -107,24 +104,24 @@ div img {
   background-color: #ffc0cb;
 }
 
+/* row 7: api product section */
 
-/* row 7 – api product section */
 .row-7 {
   grid-template-columns: 1fr;
-  justify-items: center; /* center content horizontally */
+  justify-items: center; /* center horizontally */
   margin-bottom: 40px;
 }
 
-/* api box styling: smaller + centered + shadow */
+/* api box – smaller card, shadow, centered */
 .api-box {
-  background-color: #ffe6ef; /* light pink */
+  background-color: #ffe6ef;
   padding: 20px;
   border-radius: 12px;
-  width: 300px; /* smaller card */
+  width: 300px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* soft shadow */
-  opacity: 0; /* for animation */
-  transform: translateY(40px); /* animation start */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0; /* animation starting values */
+  transform: translateY(40px);
 }
 
 /* api product image */
@@ -134,7 +131,7 @@ div img {
   margin: 10px 0;
 }
 
-/* fancy button */
+/* random product button */
 .random-btn {
   margin-top: 15px;
   padding: 12px 20px;
@@ -153,57 +150,42 @@ div img {
   transform: scale(1.05);
 }
 
-/* mobile adjustments */
-@media (max-width: 479px) {
-  .api-box {
-    width: 250px;
-  }
-  .api-img {
-    width: 150px;
-  }
-}
 
+/* tablet styles (medium screens), max width 767px */
 
-
-/* tablet styles (medium screens) */
 @media (max-width: 767px) {
 
-  /* row 1 becomes 2 columns on tablet */
   .row-1 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* row 2 becomes 1 column */
   .row-2 {
     grid-template-columns: 1fr;
   }
 
-  /* row 3 stacks vertically */
   .row-3 {
     grid-template-columns: 1fr;
   }
 
-  /* row 5 becomes 2 columns instead of 3 */
   .row-5 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* row 6 becomes 2 columns */
   .row-6 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* row 7 stays 1 column */
   .row-7 {
     grid-template-columns: 1fr;
   }
 }
 
 
-/* mobile styles (small screens) */
+/* mobile styles (small screens), max width 479px */
+
 @media (max-width: 479px) {
 
-  /* new: grid makes it easy to force 1 column layout */
+  /* force all grid rows to 1 column */
   .row {
     grid-template-columns: 1fr !important;
   }
@@ -212,8 +194,12 @@ div img {
     grid-template-columns: 1fr;
   }
 
-  /* make api image smaller for mobile */
+  /* api card smaller on mobile */
+  .api-box {
+    width: 250px;
+  }
+
   .api-img {
-    width: 180px;
+    width: 150px;
   }
 }
