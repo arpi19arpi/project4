@@ -108,41 +108,61 @@ div img {
 }
 
 
-
-/* row 7: api product section*/
-
-
-/* row 7 uses 1 column full width */
+/* row 7 – api product section */
 .row-7 {
   grid-template-columns: 1fr;
+  justify-items: center; /* center content horizontally */
+  margin-bottom: 40px;
 }
 
-/* api box background + formatting */
-/* new: pastel background for api card */
+/* api box styling: smaller + centered + shadow */
 .api-box {
-  background-color: #ffe4ec;
-  padding: 25px;
+  background-color: #ffe6ef; /* light pink */
+  padding: 20px;
   border-radius: 12px;
+  width: 300px; /* smaller card */
   text-align: center;
-  opacity: 0; /* start hidden for animation */
-  transform: translateY(40px); /* starting position for popmotion */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* soft shadow */
+  opacity: 0; /* for animation */
+  transform: translateY(40px); /* animation start */
 }
 
-/* product image from open food facts */
-/* slightly larger image compared to dessert grid items */
+/* api product image */
 .api-img {
-  width: 230px;
+  width: 180px;
   border-radius: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 
-/* headline style inside api box */
-.api-box h2 {
-  font-size: 26px;
-  margin-bottom: 10px;
-  color: #333;
+/* fancy button */
+.random-btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border: none;
+  background-color: #ff9fba;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
+
+.random-btn:hover {
+  background-color: #ff89ab;
+  transform: scale(1.05);
+}
+
+/* mobile adjustments */
+@media (max-width: 479px) {
+  .api-box {
+    width: 250px;
+  }
+  .api-img {
+    width: 150px;
+  }
+}
+
 
 
 /* tablet styles (medium screens) */
