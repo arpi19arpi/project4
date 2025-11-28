@@ -1,60 +1,67 @@
-/* list of dessert or sweet product barcodes */
-const dessertBarcodes = [
-  "3017624010701",  // Nutella
-  "737628064502",  // Hershey’s
-  "8000500310427", // Kinder Bueno
-  "7622210449283", // Oreo Cookies
-  "5000159450122"  // Cadbury Chocolate
-];
+// Using NASA'a API 
+// Created my own private key for the API
+const apiURL = "https://api.nasa.gov/planetary/apod?api_key=8lX7oxoVj2NvzLhqOyZZmhotHUIqkmIzrzgdan0L";
 
-/* get a random barcode */
-function getRandomBarcode() {
-  return dessertBarcodes[Math.floor(Math.random() * dessertBarcodes.length)];
+// elements used
+const card = document.querySelector(".card");
+const btn = document.getElementById("openNasaBtn");
+const img = document.getElementById("spaceImg");
+
+// Initial state
+card.style.opacity = 0;
+card.style.transform = "translateY(40px)";
+btn.style.transform = "scale(0)";
+
+// Fetching NASA's data
+async function getNASAData() {
+  const response = await fetch(apiURL);
+  const data = await response.json();
+
+  img.src = data.url;
+  document.getElementById("title").textContent = data.title;
+  document.getElementById("desc").textContent = data.explanation;
+
+  img.onload = () => {
+    animateCard();
+  };
 }
 
-/* load product from API */
-function loadProduct() {
-  const barcode = getRandomBarcode();
-  const box = document.getElementById("api-dessert");
+// Using spring animation here
+// Card fades + slides animation
+function animateCard() {
+  popmotion.spring({
+    from: { opacity: 0, y: 40 },
+    to: { opacity: 1, y: 0 },
+    stiffness: 40,   // slowed down
+    damping: 10      // softer stop
+  }).start(v => {
+    card.style.opacity = v.opacity;
+    card.style.transform = `translateY(${v.y}px)`;
+  });
 
-  box.innerHTML = `<p>loading...</p>`;
-  box.style.opacity = 0;
-  box.style.transform = "translateY(40px)";
-
-  fetch(`https://world.openfoodfacts.net/api/v2/product/${barcode}`)
-    .then(res => res.json())
-    .then(data => {
-
-      if (data.status === 1) {
-        const p = data.product;
-
-        box.innerHTML = `
-          <h2>featured product</h2>
-          <img src="${p.image_url}" class="api-img">
-          <p><strong>${p.product_name || "No name"}</strong></p>
-          <p>brand: ${p.brands || "N/A"}</p>
-          <p>nutri-score: ${p.nutrition_grades || "N/A"}</p>
-        `;
-
-        /* fancy spring animation */
-        popmotion.spring({
-          from: { opacity: 0, y: 40 },
-          to: { opacity: 1, y: 0 },
-          stiffness: 120,
-          damping: 12
-        }).start(v => {
-          box.style.opacity = v.opacity;
-          box.style.transform = `translateY(${v.y}px)`;
-        });
-
-      } else {
-        box.innerHTML = "<p>Product not found.</p>";
-      }
-    });
+  // Delay button animation
+  setTimeout(() => {
+    animateButton();
+  }, 500);  // extra delay (to be smoother)
 }
 
-/* button: load random dessert */
-document.getElementById("random-btn").addEventListener("click", loadProduct);
+// Using spring animation on button
+// Button bounce pop-in
+function animateButton() {
+  popmotion.spring({
+    from: { scale: 0 },
+    to: { scale: 1 },
+    stiffness: 80,    // slower bounce
+    damping: 8        // more bounce
+  }).start(v => {
+    btn.style.transform = `scale(${v.scale})`;
+  });
+}
 
-/* load first product on page load */
-loadProduct();
+// Button click to redirect to NASA's website 
+btn.addEventListener("click", () => {
+  window.open("https://apod.nasa.gov/apod/astropix.html", "_blank");
+});
+
+// Start loading
+getNASAData();
